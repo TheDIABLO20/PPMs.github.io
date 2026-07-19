@@ -21,19 +21,25 @@ function esAdmin(){
 
 }
 
-function verPPM(id){
+function verPPM(id) {
 
-    console.log("ID:", id);
-    console.log("listaPPM:", listaPPM);
+    const ppm = listaPPM.find(
+        x => Number(x.id) === Number(id)
+    );
 
-    const ppm = listaPPM.find(x => Number(x.id) === Number(id));
-
-    console.log("Encontrado:", ppm);
-
-    if(!ppm){
+    if (!ppm) {
         alert("Registro no encontrado");
         return;
     }
+
+    document.getElementById("d_id").textContent = ppm.id;
+    document.getElementById("d_empleado").textContent = ppm.empleado;
+    document.getElementById("d_nombre").textContent = ppm.nombre;
+    document.getElementById("d_area").textContent = ppm.area;
+    document.getElementById("d_fecha").textContent = ppm.fecha;
+    document.getElementById("d_titulo").textContent = ppm.titulo;
+
+    mostrar("detalleppm");
 }
 function mostrar(id){
 
@@ -134,9 +140,8 @@ async function guardarPPM(){
     cargarPPM();
 }
 
+
 async function cargarPPM() {
-listaPPM = data;
-console.log(listaPPM);
 
     const { data, error } = await supabaseClient
         .from("ppm")
@@ -150,6 +155,7 @@ console.log(listaPPM);
         return;
     }
 
+    // Guardar los registros para usar en verPPM()
     listaPPM = data;
 
     let html = "";
@@ -176,11 +182,11 @@ console.log(listaPPM);
             <td>${ppm.area}</td>
             <td>${ppm.fecha}</td>
             <td>${ppm.proceso_afectado}</td>
-            <td>${ppm.deliveryTO}</td>
+            <td>${ppm.delivery_to}</td>
             <td>${ppm.codigo}</td>
-            <td>${ppm.supervisorOriginador}</td>
-            <td>${ppm.empleadoReporta}</td>
-            <td>${ppm.turnoReporta}</td>
+            <td>${ppm.supervisor_originador}</td>
+            <td>${ppm.empleado_reporta}</td>
+            <td>${ppm.turno_reporta}</td>
             <td>${ppm.titulo}</td>
 
             <td>
@@ -196,71 +202,9 @@ console.log(listaPPM);
         `;
     });
 
-    document.getElementById("listaPPM").innerHTML = html;
-}
+    document.getElementById("listaPPM").innerHTML = html;}
 
-async function cargarPPM() {
 
-    const { data, error } = await supabaseClient
-        .from("ppm")
-        .select("*")
-        .order("id", {
-            ascending: false
-        });
-
-    if (error) {
-        console.error(error);
-        return;
-    }
-
-    let html = "";
-
- data.forEach(ppm => {
-
-    let botonEliminar = "";
-
-    if (esAdmin()) {
-        botonEliminar = `
-            <button
-                onclick="eliminarPPM(${ppm.id})"
-                class="btn-delete">
-                Eliminar
-            </button>
-        `;
-    }
-
-    html += `
-    <tr>
-            <td>${ppm.id}</td>
-            <td>${ppm.empleado}</td>
-            <td>${ppm.nombre}</td>
-            <td>${ppm.area}</td>
-            <td>${ppm.fecha}</td>
-            <td>${ppm.proceso_afectado}</td>
-            <td>${ppm.delivery_to}</td>
-            <td>${ppm.codigo}</td>
-            <td>${ppm.supervisor_originador}</td>
-            <td>${ppm.empleado_reporta}</td>
-            <td>${ppm.turno_reporta}</td>
-            <td>${ppm.titulo}</td>
-
-        <td>
-            <button
-                onclick="verPPM(${ppm.id})"
-                class="btn-ver">
-                Ver
-            </button>
-
-            ${botonEliminar}
-        </td>
-    </tr>
-    `;
-});
-
- document.getElementById(
-        "listaPPM"
-    ).innerHTML = html;
-}
 function cerrarModal(){
 
     document.getElementById("modalPPM")
