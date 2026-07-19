@@ -108,72 +108,23 @@ async function guardarPPM(){
     cargarPPM();
 }
 
-function cargarPPM(){
+async function cargarPPM(){
 
-    let registros =
-        JSON.parse(localStorage.getItem("ppm")) || [];
+    const { data, error } =
+        await supabase
+            .from("ppm")
+            .select("*")
+            .order("id", {
+                ascending: false
+            });
 
-    let html = "";
+    if(error){
 
-    registros.forEach(ppm=>{
+        console.error(error);
+        return;
 
-        let botonEliminar = "";
+    }
 
-        if(esAdmin()){
-
-            botonEliminar = `
-                <button
-                    onclick="eliminarPPM(${ppm.id})"
-                    class="btn-delete">
-                    Eliminar
-                </button>
-            `;
-        }
-
-        html += `
-        <tr>
-
-            <td>${ppm.id}</td>
-
-            <td>${ppm.empleado}</td>
-
-            <td>${ppm.nombre}</td>
-
-            <td>${ppm.area}</td>
-
-            <td>${ppm.fecha}</td>
-
-            <td>${ppm.procesoAfectado}</td>
-
-            <td>${ppm.deliveryTO}</td>
-
-            <td>${ppm.codigo}</td>
-
-            <td>${ppm.supervisorOriginador}</td>
-
-            <td>${ppm.empleadoReporta}</td>
-
-            <td>${ppm.turnoReporta}</td>
-
-            <td>${ppm.titulo}</td>
-
-            <td>
-
-                <button
-                    onclick="verPPM(${ppm.id})"
-                    class="btn-ver">
-                    Ver
-                </button>
-
-                ${botonEliminar}
-
-            </td>
-
-        </tr>
-        `;
-    });
-
-    document.getElementById("listaPPM").innerHTML = html;
 }
 
 async function cargarPPM(){
