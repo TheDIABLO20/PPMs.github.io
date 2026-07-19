@@ -2,11 +2,17 @@ console.log("APP CARGADA");
 const supabaseUrl =
 "https://drxvkseiacmrzedbzysc.supabase.co";
 const supabaseKey =
-"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRyeHZrc2VpYWNtcnplZGJ6eXNjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQ0Mzk3NjIsImV4cCI6MjEwMDAxNTc2Mn0.j3KDqYF6Q-hED46CQlDvMa4yByOrqkT0nnFy3glrwBE";
-const supabaseClient = window.supabase.createClient(
+"sb_publishable_Al2Oh_KYr2JtXeqzrfxaKg__gVQmzg_";
+
+const { createClient } = supabase;
+
+const supabaseClient = createClient(
     supabaseUrl,
     supabaseKey
+
 );
+
+let listaPPM = [];
 
 function esAdmin(){
 
@@ -15,13 +21,34 @@ function esAdmin(){
 
 }
 
+function verPPM(id){
+
+    console.log("ID:", id);
+    console.log("listaPPM:", listaPPM);
+
+    const ppm = listaPPM.find(x => Number(x.id) === Number(id));
+
+    console.log("Encontrado:", ppm);
+
+    if(!ppm){
+        alert("Registro no encontrado");
+        return;
+    }
+}
 function mostrar(id){
 
-    document.querySelectorAll('.seccion').forEach(sec=>{
-        sec.style.display='none';
+    document.querySelectorAll(".seccion").forEach(sec => {
+        sec.style.display = "none";
     });
 
-    document.getElementById(id).style.display='block';
+    const seccion = document.getElementById(id);
+
+    if(!seccion){
+        console.error("No existe el elemento:", id);
+        return;
+    }
+
+    seccion.style.display = "block";
 
     if(id === "verppm"){
         cargarPPM();
@@ -83,7 +110,7 @@ async function guardarPPM(){
 
     };
 
-    const { error } = await supabase
+    const { error } = await supabaseClient
     .from("ppm")
     .insert([ppm]);
 
@@ -107,19 +134,31 @@ async function guardarPPM(){
     cargarPPM();
 }
 
-function cargarPPM(){
+async function cargarPPM() {
+listaPPM = data;
+console.log(listaPPM);
 
-    let registros =
-        JSON.parse(localStorage.getItem("ppm")) || [];
+    const { data, error } = await supabaseClient
+        .from("ppm")
+        .select("*")
+        .order("id", {
+            ascending: false
+        });
+
+    if (error) {
+        console.error(error);
+        return;
+    }
+
+    listaPPM = data;
 
     let html = "";
 
-    registros.forEach(ppm=>{
+    data.forEach(ppm => {
 
         let botonEliminar = "";
 
-        if(esAdmin()){
-
+        if (esAdmin()) {
             botonEliminar = `
                 <button
                     onclick="eliminarPPM(${ppm.id})"
@@ -131,33 +170,20 @@ function cargarPPM(){
 
         html += `
         <tr>
-
             <td>${ppm.id}</td>
-
             <td>${ppm.empleado}</td>
-
             <td>${ppm.nombre}</td>
-
             <td>${ppm.area}</td>
-
             <td>${ppm.fecha}</td>
-
-            <td>${ppm.procesoAfectado}</td>
-
+            <td>${ppm.proceso_afectado}</td>
             <td>${ppm.deliveryTO}</td>
-
             <td>${ppm.codigo}</td>
-
             <td>${ppm.supervisorOriginador}</td>
-
             <td>${ppm.empleadoReporta}</td>
-
             <td>${ppm.turnoReporta}</td>
-
             <td>${ppm.titulo}</td>
 
             <td>
-
                 <button
                     onclick="verPPM(${ppm.id})"
                     class="btn-ver">
@@ -165,9 +191,7 @@ function cargarPPM(){
                 </button>
 
                 ${botonEliminar}
-
             </td>
-
         </tr>
         `;
     });
@@ -175,48 +199,68 @@ function cargarPPM(){
     document.getElementById("listaPPM").innerHTML = html;
 }
 
-async function cargarPPM(){
+async function cargarPPM() {
 
-    const { data, error } =
-        await 
-            .from("ppm")
-            .select("*")
-            .order("id", {
-                ascending: false
-            });
+    const { data, error } = await supabaseClient
+        .from("ppm")
+        .select("*")
+        .order("id", {
+            ascending: false
+        });
 
-    if(error){
-
+    if (error) {
         console.error(error);
-
         return;
     }
 
     let html = "";
 
-    data.forEach(ppm => {
+ data.forEach(ppm => {
 
-        html += `
-        <tr>
+    let botonEliminar = "";
 
+    if (esAdmin()) {
+        botonEliminar = `
+            <button
+                onclick="eliminarPPM(${ppm.id})"
+                class="btn-delete">
+                Eliminar
+            </button>
+        `;
+    }
+
+    html += `
+    <tr>
             <td>${ppm.id}</td>
             <td>${ppm.empleado}</td>
             <td>${ppm.nombre}</td>
             <td>${ppm.area}</td>
             <td>${ppm.fecha}</td>
+            <td>${ppm.proceso_afectado}</td>
+            <td>${ppm.delivery_to}</td>
+            <td>${ppm.codigo}</td>
+            <td>${ppm.supervisor_originador}</td>
+            <td>${ppm.empleado_reporta}</td>
+            <td>${ppm.turno_reporta}</td>
             <td>${ppm.titulo}</td>
 
-        </tr>
-        `;
+        <td>
+            <button
+                onclick="verPPM(${ppm.id})"
+                class="btn-ver">
+                Ver
+            </button>
 
-    });
+            ${botonEliminar}
+        </td>
+    </tr>
+    `;
+});
 
-    document.getElementById(
+ document.getElementById(
         "listaPPM"
     ).innerHTML = html;
-
 }
-
 function cerrarModal(){
 
     document.getElementById("modalPPM")
@@ -224,23 +268,7 @@ function cerrarModal(){
 
 }
 function eliminarPPM(id){
-
-    if(confirm("¿Desea eliminar este PPM?")){
-
-        let registros =
-            JSON.parse(localStorage.getItem("ppm")) || [];
-
-        registros = registros.filter(
-            ppm => ppm.id !== id
-        );
-
-        localStorage.setItem(
-            "ppm",
-            JSON.stringify(registros)
-        );
-
-        cargarPPM();
-    }
+    alert("Eliminar registro: " + id);
 }
 
 function limpiarFormulario(){
