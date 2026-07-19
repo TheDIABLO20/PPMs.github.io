@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="style-dash.css" type="text/css" media="all" />
+<title>PPM</title>
+</head>
+<body>
+<div class="container">
+
+    <!-- SIDEBAR -->
+
+    <div class="sidebar" id="sidebar">
+
+        <button class="toggle-btn" onclick="toggleSidebar()">
+            ☰
+        </button>
+
+        <div class="logo">
+            <span>PPM</span>
+        </div>
+
+        <div class="menu">
+
+            <a onclick="mostrar('inicio')">
+                <span>INICIO</span>
+            </a>
+
+            <a onclick="mostrar('ingresarppm')">
+                <span>INGRESAR PPM</span>
+            </a>
+
+            <a onclick="mostrar('verppm')">
+                <span>VER PPM</span>
+            </a>
+
+            <a onclick="mostrar('qcrd')">
+                <span>GENERAR QCRD</span>
+            </a>
+
+            <a onclick="mostrar('administracion')">
+                <span>ADMINISTRACIÓN</span>
+            </a>
+
+        </div>
+        <div class="sidebar-footer">
+
+    <h4>Creado por Brayan Sanchez</h4>
+
+    <p>
+        Si tienes preguntas o dudas, por favor llama a Brayan Sanchez al
+        tel: (000) 000-0000 o envía un ticket en
+    </p>
+
+</div>
+
+    </div>
+
+    <!-- CONTENIDO -->
+
+    <div class="main">
+
+        <div class="topbar">
+
+            <h2>People Performance Management</h2>
+
+<div class="usuario">
+
+    <span id="usuarioNombre"></span>
+
+    <button class="logout" onclick="cerrarSesion()">
+        Cerrar Sesión
+    </button>
+
+</div>
+
+        </div>
+
+        <div class="content">
+
+            <!-- INICIO -->
+
+            <div id="inicio" class="seccion">
+
+                <div class="welcome">
+
+                    <h2>Bienvenido a PPM</h2>
+
+                    <p>
+                        Sistema de gestión de desempeño y mejora continua.
+                    </p>
+
+                </div>
+
+                <div class="cards">
+
+                    <div class="card">
+                        <h3>Ingresar PPM</h3>
+
+                        <button onclick="mostrar('ingresarppm')">
+                            Abrir
+                        </button>
+                    </div>
+
+                    <div class="card">
+                        <h3>Ver PPM</h3>
+
+                        <button onclick="mostrar('verppm')">
+                            Abrir
+                        </button>
+                    </div>
+
+                    <div class="card">
+                        <h3>Generar QCRD</h3>
+
+                        <button onclick="mostrar('qcrd')">
+                            Abrir
+                        </button>
+                    </div>
+
+                </div>
+
+<div class="card grafica-card">
+
+    <h3>PPM por Día</h3>
+
+    <canvas id="graficaPPM"></canvas>
+
+</div>
+                
+
+            </div>
+
+            <!-- INGRESAR PPM -->
+<div id="ingresarppm" class="seccion">
+
+    <div class="modulo">
+
+        <h2>Ingresar PPM</h2>
+
+        <p>
+            Complete la siguiente información para registrar un nuevo PPM.
+        </p>
+
+        <div id="formPPM" class="ppm-grid">
+
+            <!-- INFORMACIÓN GENERAL -->
+
+            <div>
+                <label>Número de Empleado</label>
+                <input
+                    id="empleado"
+                    type="text"
+                    placeholder="629176"
+                    oninput="buscarEmpleado()">
+            </div>
+
+            <div>
+                <label>Nombre</label>
+                <input
+                    id="nombre"
+                    type="text"
+                    readonly>
+            </div>
+
+            <div>
+                <label>Área</label>
+                <input
+                    id="area"
+                    type="text"
+                    readonly>
+            </div>
+
+            <div>
+                <label>Fecha</label>
+                <input
+                    id="fecha"
+                    type="date">
+            </div>
+
+            <!-- NUEVOS CAMPOS -->
+
+            <div>
+                <label>Proceso Afectado</label>
+                <input
+                    id="procesoAfectado"
+                    type="text"
+                    placeholder="Proceso afectado"
+                    readonly>
+            </div>
+
+            <div>
+                <label>Delivery / TO</label>
+                <input
+                    id="deliveryTO"
+                    type="text"
+                    placeholder="Delivery / TO">
+            </div>
+
+            <div>
+                <label>Código</label>
+                <input
+                    id="codigo"
+                    type="text"
+                    placeholder="Código"
+                    oninput="busquedaFolio()">
+            </div>
+
+            <div>
+                <label>Supervisor Originador</label>
+                <input
+                    id="supervisorOriginador"
+                    type="text"
+                    placeholder="Supervisor"
+                    readonly>
+            </div>
+
+            <div>
+                <label># Empleado Reporta</label>
+                <input
+                    id="empleadoReporta"
+                    type="text"
+                    placeholder="Número de empleado"
+                    oninput="empleadoReporta()">
+            </div>
+
+            <div>
+                <label>Turno Reporta</label>
+                <input
+                     id="turnoReporta"
+                     type="text"
+                     placeholder="Turno"
+                     readonly>
+            </div>
+
+            <!-- TÍTULO -->
+
+            <div style="grid-column:1 / span 2;">
+                <label>Hallasgo</label>
+                <input
+                    id="titulo"
+                    type="text"
+                    placeholder="Título del hallazgo"
+                    readonly>
+            </div>
+
+            <!-- DESCRIPCIÓN -->
+
+            <div style="grid-column:1 / span 2;">
+                <label>Descripción</label>
+                <textarea
+                    id="descripcion"
+                    rows="5"
+                    placeholder="Describa el problema encontrado..."></textarea>
+            </div>
+
+            <!-- EVIDENCIA -->
+
+            <div style="grid-column:1 / span 2;">
+
+                <label>Evidencia Fotográfica</label>
+
+                <input
+                    id="imagenes"
+                    type="file"
+                    multiple
+                    accept="image/*">
+
+                <small>
+                    Puede seleccionar una o varias imágenes.
+                </small>
+
+            </div>
+
+        </div>
+
+        <div class="ppm-buttons">
+
+            <button
+                class="btn-save"
+                onclick="guardarPPM()">
+                Guardar PPM
+            </button>
+
+            <button
+                class="btn-clear"
+                onclick="limpiarFormulario()">
+                Limpiar
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+            <!-- VER PPM -->
+
+            <div id="verppm" class="seccion">
+
+                <div class="modulo">
+
+                    <h2>Ver PPM</h2>
+
+                    <p>
+                        Consulta de PPM registrados.
+                    </p>
+
+                    <table class="tabla-ppm">
+
+                        <thead>
+
+                            <tr>
+    <th>ID</th>
+    <th>Empleado Reportado</th>
+    <th>Nombre Reportado</th>
+    <th>Área Reportado</th>
+    <th>Fecha</th>
+    <th>Proceso Afectado</th>
+    <th>Delivery/TO</th>
+    <th>Código</th>
+    <th>Supervisor a Reportar</th>
+    <th>Empleado que Reporta</th>
+    <th>Turno</th>
+    <th>Hallasgo</th>
+    <th>Acciones</th>
+</tr>
+
+                        </thead>
+
+                        <tbody id="listaPPM">
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+            <!-- GENERAR QCRD -->
+
+            <div id="qcrd" class="seccion">
+
+                <div class="modulo">
+
+                    <h2>Generar QCRD</h2>
+
+                    <p>
+                        Generación de reportes QCRD.
+                    </p>
+
+                </div>
+
+            </div>
+
+            <!-- ADMINISTRACIÓN -->
+
+            <div id="administracion" class="seccion">
+
+                <div class="modulo">
+
+                    <h2>Administración</h2>
+
+                    <p>
+                        Configuración y administración del sistema.
+                    </p>
+<button onclick="exportarPPM()">
+    Descargar Respaldo JSON
+</button>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+<div id="modalPPM" class="modal">
+
+    <div class="modal-content">
+
+        <h2>Detalle del PPM</h2>
+
+        <div id="detallePPM"></div>
+
+        <button onclick="cerrarModal()">
+            Cerrar
+        </button>
+
+    </div>
+
+</div>
+<script src="Main-dash.js" type="text/javascript" charset="utf-8"></script>
+<script src="Main-usuarios.js" type="text/javascript" charset="utf-8"></script>
+<script src="Main-folio.js" type="text/javascript" charset="utf-8"></script>
+<script src="https:r.net/npm/chart.js
+</body>
+</html>
