@@ -31,60 +31,71 @@ function cerrarSesion(){
 
 }
 
-function guardarPPM(){
+async function guardarPPM(){
 
-    let registros =
-        JSON.parse(localStorage.getItem("ppm")) || [];
+    const ppm = {
 
-    let ultimoId =
-        Number(localStorage.getItem("ultimoId")) || 0;
+        empleado:
+            document.getElementById("empleado").value,
 
-    ultimoId++;
+        nombre:
+            document.getElementById("nombre").value,
 
-    localStorage.setItem(
-        "ultimoId",
-        ultimoId
-    );
+        area:
+            document.getElementById("area").value,
 
-    let ppm = {
+        fecha:
+            document.getElementById("fecha").value,
 
-        id: ultimoId,
+        proceso_afectado:
+            document.getElementById("procesoAfectado").value,
 
-        empleado: document.getElementById("empleado").value,
-        nombre: document.getElementById("nombre").value,
-        area: document.getElementById("area").value,
-        fecha: document.getElementById("fecha").value,
+        delivery_to:
+            document.getElementById("deliveryTO").value,
 
-        procesoAfectado: document.getElementById("procesoAfectado").value,
-        deliveryTO: document.getElementById("deliveryTO").value,
-        codigo: document.getElementById("codigo").value,
+        codigo:
+            document.getElementById("codigo").value,
 
-        supervisorOriginador: document.getElementById("supervisorOriginador").value,
+        supervisor_originador:
+            document.getElementById("supervisorOriginador").value,
 
-        empleadoReporta: document.getElementById("empleadoReporta").value,
-        turnoReporta: document.getElementById("turnoReporta").value,
+        empleado_reporta:
+            document.getElementById("empleadoReporta").value,
 
-        titulo: document.getElementById("titulo").value,
-        descripcion: document.getElementById("descripcion").value,
+        turno_reporta:
+            document.getElementById("turnoReporta").value,
 
-        fechaRegistro: new Date().toLocaleString()
+        titulo:
+            document.getElementById("titulo").value,
+
+        descripcion:
+            document.getElementById("descripcion").value
+
     };
 
-    registros.push(ppm);
+    const { error } =
+        await supabase
+            .from("ppm")
+            .insert([ppm]);
 
-    localStorage.setItem(
-        "ppm",
-        JSON.stringify(registros)
+    if(error){
+
+        console.error(error);
+
+        alert(
+            "Error al guardar PPM"
+        );
+
+        return;
+    }
+
+    alert(
+        "PPM guardado correctamente"
     );
-
-    alert("PPM guardado correctamente.");
 
     limpiarFormulario();
 
-    if(typeof cargarPPM === "function"){
-        cargarPPM();
-    }
-
+    cargarPPM();
 }
 
 function cargarPPM(){
@@ -155,40 +166,46 @@ function cargarPPM(){
     document.getElementById("listaPPM").innerHTML = html;
 }
 
-function verPPM(id){
+async function cargarPPM(){
 
-    let registros =
-        JSON.parse(localStorage.getItem("ppm")) || [];
+    const { data, error } =
+        await supabase
+            .from("ppm")
+            .select("*")
+            .order("id", {
+                ascending: false
+            });
 
-    let ppm =
-        registros.find(x => x.id == id);
+    if(error){
 
-    document.getElementById("detallePPM").innerHTML = `
+        console.error(error);
 
-        <p><strong>ID:</strong> ${ppm.id}</p><br>
+        return;
+    }
 
-        <p><strong>Empleado:</strong>
-        ${ppm.empleado}</p>
+    let html = "";
 
-        <p><strong>Nombre:</strong>
-        ${ppm.nombre}</p>
+    data.forEach(ppm => {
 
-        <p><strong>Área:</strong>
-        ${ppm.area}</p>
+        html += `
+        <tr>
 
-        <p><strong>Fecha:</strong>
-        ${ppm.fecha}</p>
+            <td>${ppm.id}</td>
+            <td>${ppm.empleado}</td>
+            <td>${ppm.nombre}</td>
+            <td>${ppm.area}</td>
+            <td>${ppm.fecha}</td>
+            <td>${ppm.titulo}</td>
 
-        <p><strong>Título:</strong>
-        ${ppm.titulo}</p>
+        </tr>
+        `;
 
-        <p><strong>Descripción:</strong>
-        ${ppm.descripcion}</p>
+    });
 
-    `;
+    document.getElementById(
+        "listaPPM"
+    ).innerHTML = html;
 
-    document.getElementById("modalPPM")
-            .style.display = "flex";
 }
 
 function cerrarModal(){
