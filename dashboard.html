@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" href="css/style-dash.css" type="text/css" media="all" />
-<title>PPM</title>
+<title>PPM Dashboard</title>
 </head>
 <body>
 <div class="container">
@@ -337,7 +337,41 @@
                 </div>
 
             </div>
+<div id="detalleppm" class="seccion" style="display:none">
 
+    <div class="modulo">
+
+        <h2>Detalle PPM</h2>
+
+        <p><strong>ID:</strong> <span id="d_id"></span></p>
+
+        <p><strong>Empleado Reportado:</strong>
+            <span id="d_empleado"></span>
+        </p>
+
+        <p><strong>Nombre:</strong>
+            <span id="d_nombre"></span>
+        </p>
+
+        <p><strong>Área:</strong>
+            <span id="d_area"></span>
+        </p>
+
+        <p><strong>Fecha:</strong>
+            <span id="d_fecha"></span>
+        </p>
+
+        <p><strong>Hallazgo:</strong>
+            <span id="d_titulo"></span>
+        </p>
+
+        <button onclick="mostrar('verppm')">
+            Regresar
+        </button>
+
+    </div>
+
+</div>
             <!-- GENERAR QCRD -->
 
             <div id="qcrd" class="seccion">
@@ -345,7 +379,18 @@
                 <div class="modulo">
 
                     <h2>Generar QCRD</h2>
+<div id="detalleppm" class="seccion" style="display:none">
 
+    <h2>Detalle PPM</h2>
+
+    <p><b>ID:</b> <span id="d_id"></span></p>
+    <p><b>Empleado:</b> <span id="d_empleado"></span></p>
+    <p><b>Nombre:</b> <span id="d_nombre"></span></p>
+    <p><b>Área:</b> <span id="d_area"></span></p>
+    <p><b>Fecha:</b> <span id="d_fecha"></span></p>
+    <p><b>Título:</b> <span id="d_titulo"></span></p>
+
+</div>
                     <p>
                         Generación de reportes QCRD.
                     </p>
@@ -392,10 +437,10 @@
     </div>
 
 </div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"> </script>
 <script src="js/Main-dash.js" type="text/javascript" charset="utf-8"></script>
 <script src="js/Main-usuarios.js" type="text/javascript" charset="utf-8"></script>
 <script src="js/Main-folio.js" type="text/javascript" charset="utf-8"></script>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabasein-dash.js"> </script>
 <script src="https:r.net/npm/chart.js
 </body>
 </html>
