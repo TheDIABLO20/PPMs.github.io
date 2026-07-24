@@ -65,3 +65,18 @@ function cargarUsuario(){
     document.getElementById("usuarioNombre")
         .textContent = nombre || "Usuario";
 }
+
+function cerrarSesion(){
+
+    localStorage.removeItem("usuarioActual");
+    localStorage.removeItem("esAdmin");
+    localStorage.removeItem("nombreUsuario");
+
+    window.location.href = "index.html";
+}
+
+window.onload = function(){
+
+    cargarUsuario();
+
+}
