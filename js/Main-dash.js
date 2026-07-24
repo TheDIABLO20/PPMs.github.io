@@ -76,7 +76,36 @@ function cerrarSesion(){
 
 }
 
-async function guardarPPM(){
+async function guardarPPM() {
+
+    const archivo =
+        document.getElementById("imagenes").files[0];
+
+    let imagenUrl = null;
+
+    if (archivo) {
+
+        const nombreArchivo =
+            Date.now() + "_" + archivo.name;
+
+        const { error: errorSubida } =
+            await supabaseClient.storage
+                .from("ppm-imagenes")
+                .upload(nombreArchivo, archivo);
+
+        if (errorSubida) {
+            console.error(errorSubida);
+            alert("Error al subir imagen");
+            return;
+        }
+
+        const { data } =
+            supabaseClient.storage
+                .from("ppm-imagenes")
+                .getPublicUrl(nombreArchivo);
+
+        imagenUrl = data.publicUrl;
+    }
 
     const ppm = {
 
@@ -115,35 +144,29 @@ async function guardarPPM(){
 
         descripcion:
             document.getElementById("descripcion").value,
-            
-        imagen_url: imagenUrl
 
+        imagen_url:
+            imagenUrl
     };
 
-    const { error } = await supabaseClient
-    .from("ppm")
-    .insert([ppm]);
+    console.log(ppm);
 
-    if(error){
+    const { error } =
+        await supabaseClient
+            .from("ppm")
+            .insert([ppm]);
 
+    if (error) {
         console.error(error);
-
-        alert(
-            "Error al guardar PPM"
-        );
-
+        alert("Error al guardar PPM");
         return;
     }
 
-    alert(
-        "PPM guardado correctamente"
-    );
+    alert("PPM guardado correctamente");
 
     limpiarFormulario();
-
     cargarPPM();
 }
-
 
 async function cargarPPM() {
 
@@ -192,7 +215,11 @@ async function cargarPPM() {
             <td>${ppm.empleado_reporta}</td>
             <td>${ppm.turno_reporta}</td>
             <td>${ppm.titulo}</td>
-            <td>${ppm.imagen_url}"width="100"alt="Imagen PPM"></td>
+            <td>
+    ${ppm.imagen_url
+        ? `${ppm.imagen_url}`
+        : "Sin imagen"}
+</td>
 
             <td>
                 <button
