@@ -11,6 +11,15 @@ const supabaseClient = createClient(
 
 );
 
+window.cerrarSesion = function(){
+
+    localStorage.removeItem("usuarioActual");
+    localStorage.removeItem("esAdmin");
+    localStorage.removeItem("nombreUsuario");
+
+    window.location.replace("index.html");
+};
+
 if(localStorage.getItem("usuarioActual")){
 
     window.location.replace("dashboard.html");
