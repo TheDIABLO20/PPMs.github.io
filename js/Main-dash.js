@@ -38,10 +38,58 @@ function verPPM(id) {
     document.getElementById("d_area").textContent = ppm.area;
     document.getElementById("d_fecha").textContent = ppm.fecha;
     document.getElementById("d_titulo").textContent = ppm.titulo;
-    document.getElementById("d_imagen").src =
-    ppm.imagen_url || "";
+const imagenes = JSON.parse(ppm.imagen_url || "[]");
+
+document.getElementById("galeria").innerHTML = `
+    <button class="btn-evidencias" onclick="verEvidencias(${ppm.id})">
+        Ver Evidencias (${imagenes.length})
+    </button>
+`;
 
     mostrar("detalleppm");
+}
+
+function abrirImagen(url){
+
+    document.getElementById("imagenGrande").src = url;
+
+    document.getElementById("visorImagen").style.display =
+        "flex";
+}
+
+function verEvidencias(id){
+
+    const ppm = listaPPM.find(
+        x => Number(x.id) === Number(id)
+    );
+
+    if(!ppm){
+        return;
+    }
+
+    const imagenes = JSON.parse(
+        ppm.imagen_url || "[]"
+    );
+
+    let html = "";
+
+imagenes.forEach(url => {
+
+    html += `
+        <img
+            src="${url}"
+            onclick="abrirImagen('${url}')"
+            style="
+                max-width       box-shadow:0 3px 10px rgba(0,0,0,.2);
+            "
+        >
+    `;
+
+});
+
+    document.getElementById("contenedorImagenes").innerHTML = html;
+
+    document.getElementById("modalImagenes").style.display = "block";
 }
 function mostrar(id){
 
@@ -78,35 +126,34 @@ function cerrarSesion(){
 
 async function guardarPPM() {
 
-    const archivo =
-        document.getElementById("imagenes").files[0];
+const archivos =
+    document.getElementById("imagenes").files;
 
-    let imagenUrl = null;
+let imagenes = [];
 
-    if (archivo) {
+for (const archivo of archivos) {
 
-        const nombreArchivo =
-            Date.now() + "_" + archivo.name;
+    const nombreArchivo =
+        Date.now() + "_" + archivo.name;
 
-        const { error: errorSubida } =
-            await supabaseClient.storage
-                .from("ppm-imagenes")
-                .upload(nombreArchivo, archivo);
+    const { error: errorSubida } =
+        await supabaseClient.storage
+            .from("ppm-imagenes")
+            .upload(nombreArchivo, archivo);
 
-        if (errorSubida) {
-            console.error(errorSubida);
-            alert("Error al subir imagen");
-            return;
-        }
-
-        const { data } =
-            supabaseClient.storage
-                .from("ppm-imagenes")
-                .getPublicUrl(nombreArchivo);
-
-        imagenUrl = data.publicUrl;
+    if (errorSubida) {
+        console.error(errorSubida);
+        alert("Error al subir imagen");
+        return;
     }
 
+    const { data } =
+        supabaseClient.storage
+            .from("ppm-imagenes")
+            .getPublicUrl(nombreArchivo);
+
+    imagenes.push(data.publicUrl);
+}
     const ppm = {
 
         empleado:
@@ -146,7 +193,7 @@ async function guardarPPM() {
             document.getElementById("descripcion").value,
 
         imagen_url:
-            imagenUrl
+            JSON.stringify(imagenes)
     };
 
     console.log(ppm);
@@ -215,11 +262,7 @@ async function cargarPPM() {
             <td>${ppm.empleado_reporta}</td>
             <td>${ppm.turno_reporta}</td>
             <td>${ppm.titulo}</td>
-            <td>
-    ${ppm.imagen_url
-        ? `${ppm.imagen_url}`
-        : "Sin imagen"}
-</td>
+            <td>${ppm.imagen_url ? "1 Evidencia" : "Sin Evidencia"}</td>
 
             <td>
                 <button
@@ -243,8 +286,31 @@ function cerrarModal(){
             .style.display = "none";
 
 }
-function eliminarPPM(id){
-    alert("Eliminar registro: " + id);
+
+async function eliminarPPM(id){
+
+    const confirmar = confirm(
+        "¿Deseas eliminar el registro #" + id + "?"
+    );
+
+    if(!confirmar){
+        return;
+    }
+
+    const { error } = await supabaseClient
+        .from("ppm")
+        .delete()
+        .eq("id", id);
+
+    if(error){
+        console.error(error);
+        alert("Error al eliminar el registro");
+        return;
+    }
+
+    alert("Registro eliminado correctamente");
+
+    cargarPPM();
 }
 
 function limpiarFormulario(){
