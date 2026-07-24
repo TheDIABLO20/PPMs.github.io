@@ -8,16 +8,6 @@ window.supabase.createClient(
     supabaseUrl,
     supabaseKey
 );
-
-function cerrarSesion(){
-
-    localStorage.removeItem("usuarioActual");
-    localStorage.removeItem("esAdmin");
-    localStorage.removeItem("nombreUsuario");
-
-    window.location.replace("index.html");
-}
-
 async function login() {
 
     const usuario =
