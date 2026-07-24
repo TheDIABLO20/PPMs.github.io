@@ -112,7 +112,7 @@ async function guardarPPM(){
             document.getElementById("titulo").value,
 
         descripcion:
-            document.getElementById("descripcion").value
+            document.getElementById("descripcion").value,
             
         imagen_url: imagenUrl
 
