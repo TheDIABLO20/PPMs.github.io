@@ -65,7 +65,3 @@ function cargarUsuario(){
     document.getElementById("usuarioNombre")
         .textContent = nombre || "Usuario";
 }
-
-function cargarUsuario(){
-    return;
-}
