@@ -1,4 +1,3 @@
-console.log("APP CARGADA");
 const supabaseUrl =
 "https://drxvkseiacmrzedbzysc.supabase.co";
 const supabaseKey =
@@ -11,6 +10,12 @@ const supabaseClient = createClient(
     supabaseKey
 
 );
+
+if(!localStorage.getItem("usuarioActual")){
+
+    window.location.href = "index.html";
+
+}
 
 let listaPPM = [];
 
