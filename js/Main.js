@@ -11,7 +11,9 @@ window.supabase.createClient(
 
 function cerrarSesion(){
 
-    localStorage.clear();
+    localStorage.removeItem("usuarioActual");
+    localStorage.removeItem("esAdmin");
+    localStorage.removeItem("nombreUsuario");
 
     window.location.replace("index.html");
 }
