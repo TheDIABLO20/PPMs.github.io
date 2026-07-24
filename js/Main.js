@@ -1,43 +1,15 @@
-const usuarios = {
+const supabaseUrl =
+"https://drxvkseiacmrzedbzysc.supabase.co";
+const supabaseKey =
+"sb_publishable_Al2Oh_KYr2JtXeqzrfxaKg__gVQmzg_";
 
-    "629176": {
-        nombre: "BRAYAN ASAEL SANCHEZ MARTINEZ",
-        password: "Reynosa01",
-        admin: true
-    },
+const supabaseClient =
+window.supabase.createClient(
+    supabaseUrl,
+    supabaseKey
+);
 
-    "591972": {
-        nombre: "RENE GONZALEZ GARCIA",
-        password: "Rene01",
-        admin: true
-    },
-
-    "652428": {
-        nombre: "MALDONADO ELIAS, VALERIA",
-        password: "Valeria01",
-        admin: false
-    },
-
-    "664394": {
-        nombre: "CORTEZ LEPE, BRAYAN ALEJANDRO",
-        password: "Brayan02",
-        admin: false
-    },
-
-    "629160": {
-        nombre: "BUSTAMANTE RIVEROLL, ALOHNDRA CRISTINA",
-        password: "Alohndra01",
-        admin: false
-    },
-    "652934": {
-        nombre: "De La Cruz Hernandez,Isidro Francisco",
-        password: "Reynosa01",
-        admin: true
-    }
-
-};
-
-function login(){
+async function login() {
 
     const usuario =
         document.getElementById("usuario").value.trim();
@@ -45,33 +17,44 @@ function login(){
     const password =
         document.getElementById("password").value;
 
-    const datos = usuarios[usuario];
+const { data, error } = await supabaseClient
+    .from("usuarios")
+    .select("*")
+    .eq("empleado", usuario);
 
-    if(datos && datos.password === password){
+if (error || data.length === 0) {
 
-        localStorage.setItem(
-            "usuarioActual",
-            usuario
-        );
+    document.getElementById("error").style.display = "block";
+    return;
 
-        localStorage.setItem(
-            "esAdmin",
-            datos.admin
-        );
+}
 
-        localStorage.setItem(
-            "nombreUsuario",
-            datos.nombre
-        );
+const datos = data[0];
 
-        window.location.href =
-            "dashboard.html";
+if (datos.password !== password) {
 
-    }else{
+    document.getElementById("error").style.display = "block";
+    return;
 
-        document.getElementById("error").style.display = "block";
+}
 
-    }
+localStorage.setItem(
+    "usuarioActual",
+    usuario
+);
+
+localStorage.setItem(
+    "esAdmin",
+    datos.admin
+);
+
+localStorage.setItem(
+    "nombreUsuario",
+    datos.nombre
+);
+
+    window.location.href =
+        "dashboard.html";
 }
 
 function cargarUsuario(){
@@ -81,11 +64,8 @@ function cargarUsuario(){
 
     document.getElementById("usuarioNombre")
         .textContent = nombre || "Usuario";
-
 }
 
-window.onload = function(){
-
-    cargarUsuario();
-
+function cargarUsuario(){
+    return;
 }
