@@ -113,6 +113,8 @@ async function guardarPPM(){
 
         descripcion:
             document.getElementById("descripcion").value
+            
+        imagen_url: imagenUrl
 
     };
 
@@ -188,6 +190,7 @@ async function cargarPPM() {
             <td>${ppm.empleado_reporta}</td>
             <td>${ppm.turno_reporta}</td>
             <td>${ppm.titulo}</td>
+            <td>${ppm.imagen_url}"width="100"alt="Imagen PPM"></td>
 
             <td>
                 <button
