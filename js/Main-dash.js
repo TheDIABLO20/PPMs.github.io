@@ -11,9 +11,9 @@ const supabaseClient = createClient(
 
 );
 
-if(!localStorage.getItem("usuarioActual")){
+if(localStorage.getItem("usuarioActual")){
 
-    window.location.href = "index.html";
+    window.location.replace("dashboard.html");
 
 }
 
