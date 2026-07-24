@@ -1,5 +1,3 @@
-console.log("MAIN-DASH CARGADO");
-
 const supabaseUrl =
 "https://drxvkseiacmrzedbzysc.supabase.co";
 const supabaseKey =
@@ -361,13 +359,3 @@ window.onload = function(){
     cargarUsuario();
 
 }
-
-window.cerrarSesion = function(){
-
-    localStorage.removeItem("usuarioActual");
-    localStorage.removeItem("esAdmin");
-    localStorage.removeItem("nombreUsuario");
-
-    window.location.replace("index.html");
-
-};
