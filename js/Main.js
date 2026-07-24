@@ -9,6 +9,13 @@ window.supabase.createClient(
     supabaseKey
 );
 
+function cerrarSesion(){
+
+    localStorage.clear();
+
+    window.location.replace("index.html");
+}
+
 async function login() {
 
     const usuario =
@@ -64,15 +71,6 @@ function cargarUsuario(){
 
     document.getElementById("usuarioNombre")
         .textContent = nombre || "Usuario";
-}
-
-function cerrarSesion(){
-
-    localStorage.removeItem("usuarioActual");
-    localStorage.removeItem("esAdmin");
-    localStorage.removeItem("nombreUsuario");
-
-    window.location.href = "index.html";
 }
 
 window.onload = function(){
