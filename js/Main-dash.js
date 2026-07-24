@@ -38,6 +38,8 @@ function verPPM(id) {
     document.getElementById("d_area").textContent = ppm.area;
     document.getElementById("d_fecha").textContent = ppm.fecha;
     document.getElementById("d_titulo").textContent = ppm.titulo;
+    document.getElementById("d_imagen").src =
+    ppm.imagen_url || "";
 
     mostrar("detalleppm");
 }
