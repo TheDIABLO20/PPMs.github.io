@@ -427,3 +427,90 @@ body{
 #graficaPPM{
     max-height:350px;
 }
+
+.btn-ver,
+.btn-delete,
+.btn-evidencias,
+.btn-regresar {
+
+    border: none;
+    border-radius: 8px;
+    padding: 8px 14px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+/* VER */
+.btn-ver {
+    background: #3498db;
+    color: white;
+}
+
+.btn-ver:hover {
+    background: #2980b9;
+    transform: translateY(-2px);
+}
+
+/* ELIMINAR */
+.btn-delete {
+    background: #e74c3c;
+    color: white;
+}
+
+.btn-delete:hover {
+    background: #c0392b;
+    transform: translateY(-2px);
+}
+
+/* EVIDENCIAS */
+.btn-evidencias {
+    background: #27ae60;
+    color: white;
+}
+
+.btn-evidencias:hover {
+    background: #229954;
+    transform: translateY(-2px);
+}
+
+/* REGRESAR */
+.btn-regresar {
+    background: #34495e;
+    color: white;
+}
+
+.btn-regresar:hover {
+    background: #2c3e50;
+    transform: translateY(-2px);
+}
+
+button {
+    box-shadow: 0 3px 8px rgba(0,0,0,.15);
+}
+
+button:hover {
+    box-shadow: 0 5px 15px rgba(0,0,0,.25);
+}
+
+.btn-cerrar {
+
+    background: #dc3545;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 8px 14px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: .3s;
+    box-shadow: 0 3px 8px rgba(0,0,0,.15);
+}
+
+.btn-cerrar:hover {
+
+    background: #bb2d3b;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0,0,0,.25);
+}
