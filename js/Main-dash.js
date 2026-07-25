@@ -344,6 +344,60 @@ function limpiarFormulario(){
 
 }
 
+async function cargarQRQC(){
+
+    const id =
+        document.getElementById("buscarPPM").value;
+
+    const { data, error } =
+        await supabaseClient
+            .from("ppm")
+            .select("*")
+            .eq("id", id)
+            .single();
+
+    if(error){
+
+        alert("PPM no encontrado");
+        return;
+
+    }
+
+    document.getElementById("qrqc_id")
+        .textContent = data.id;
+
+    document.getElementById("qrqc_codigo")
+        .textContent = data.codigo;
+
+    document.getElementById("qrqc_delivery")
+        .textContent = data.delivery_to;
+
+    document.getElementById("qrqc_empleado")
+        .textContent = data.empleado;
+
+    document.getElementById("qrqc_turno")
+        .textContent = data.turno_reporta;
+
+    document.getElementById("qrqc_area")
+        .textContent = data.area;
+
+    document.getElementById("qrqc_reporte")
+        .textContent = data.empleado_reporta;
+
+    document.getElementById("qrqc_hallazgo")
+        .textContent = data.titulo;
+}
+
+function cargarUsuario(){
+
+    const nombre =
+        localStorage.getItem("nombreUsuario");
+
+    document.getElementById("usuarioNombre")
+        .textContent = nombre;
+
+}
+
 window.onload = function(){
 
     cargarUsuario();
