@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" href="css/style-dash.css" type="text/css" media="all" />
+<link rel="stylesheet" href="css/style-qrqc.css" type="text/css" media="all" />
 <title>PPM Dashboard</title>
 </head>
 <body>
@@ -36,7 +37,7 @@
             </a>
 
             <a onclick="mostrar('qcrd')">
-                <span>GENERAR QCRD</span>
+                <span>GENERAR QRQC</span>
             </a>
 
             <a onclick="mostrar('administracion')">
@@ -112,7 +113,7 @@
                     </div>
 
                     <div class="card">
-                        <h3>Generar QCRD</h3>
+                        <h3>Generar QRQC</h3>
 
                         <button onclick="mostrar('qcrd')">
                             Abrir
@@ -260,9 +261,7 @@
             <div style="grid-column:1 / span 2;">
 
                 <label>Evidencia Fotográfica</label>
-
-               A
-
+              <input type="file" id="imagenes">
                 <small>
                     Puede seleccionar una o varias imágenes.
                 </small>
@@ -371,16 +370,138 @@
     </div>
 
 </div>
-            <!-- GENERAR QCRD -->
+            <!-- GENERAR QRQC -->
 
             <div id="qcrd" class="seccion">
 
                 <div class="modulo">
 
-                    <h2>Generar QCRD</h2>
+                    <h2>Generar QRQC</h2>
                     <p>
-                        Generación de reportes QCRD.
+                        Buscar con ID:
+                    <input type="text" id="buscarPPM">
+<button onclick="cargarQRQC()">Buscar</button>
                     </p>
+<div class="container1">
+
+<table>
+
+<tr>
+    <td colspan="4" class="header-left">Quick Response Quality Control</td>
+    <td colspan="4" class="header-center">QRQC - PDCA</td>
+    <td colspan="4" class="header-right">Problem Solving</td>
+</tr>
+
+<tr>
+    <td class="label">Folio: <h id="qrqc_id"></h></td>
+    <td colspan="5"></td>
+    <td class="label">Start Date</td>
+    <td colspan="2"><textarea class="qrqc-input"></textarea></td>
+    <td class="label">Completion Date</td>
+    <td colspan="2"><textarea class="qrqc-input"></textarea></td>
+</tr>
+
+<tr>
+    <td class="label center">Codigo</td>
+    <td class="label center">Delivery</td>
+    <td class="label center">No. Emp</td>
+    <td class="label center">Turno</td>
+    <td class="label center">Area responsable</td>
+    <td colspan="3" class="label center">Reporte empleado y turno</td>
+    <td colspan="4" class="label center">Defecto</td>
+</tr>
+
+<tr>
+    <td class="center" id="qrqc_codigo"></td>
+    <td class="center" id="qrqc_delivery"></td>
+    <td class="center" id="qrqc_empleado"></td>
+    <td class="center" id="qrqc_turno"></td>
+    <td class="center" id="qrqc_area"></td>
+    <td colspan="3" class="center" id="qrqc_reporte"></td>
+    <td colspan="4" class="center"><textarea class="qrqc-input"></textarea></td>
+</tr>
+
+<tr>
+    <td class="label">Hallazgo</td>
+<td colspan="11" id="qrqc_hallazgo" class="center"></td>
+</tr>
+
+<tr>
+    <td class="section-title">5W2H's</td>
+    <td colspan="5" class="section-title">Problem Description</td>
+    <td colspan="6" class="section-title">Containment Actions</td>
+</tr>
+
+<tr class="row-large">
+    <td>What happen?</td>
+
+<td colspan="5"><textarea id="what_happen" class="qrqc-input"></textarea></td>
+
+    <td colspan="2" class="section-title">Action corrective</td>
+    <td class="section-title">Responsible</td>
+    <td class="section-title">Date</td>
+    <td colspan="2" class="section-title">Where</td>
+</tr>
+
+<tr class="row-large">
+    <td>Why is a problem?</td>
+
+<td colspan="5"><textarea id="why_problem" class="qrqc-input"></textarea></td>
+ <td colspan="2"><textarea id="action_corrective_1"class="qrqc-input"></textarea></td>
+ <td><textarea id="responsible_1"class="qrqc-input"></textarea></td>
+ <td><textarea id="date_1"class="qrqc-input"></textarea></td>
+ <td colspan="2"><textarea id="where"class="qrqc-input"></textarea></td>
+</tr>
+
+<tr class="row-large">
+    <td>When was detected?</td>
+<td colspan="5"><textarea id="when_detected" class="qrqc-input"></textarea></td>
+ <td colspan="2"><textarea id="action_corrective_1"class="qrqc-input"></textarea></td>
+ <td><textarea id="responsible_1"class="qrqc-input"></textarea></td>
+ <td><textarea id="date_1"class="qrqc-input"></textarea></td>
+ <td colspan="2"><textarea id="where"class="qrqc-input"></textarea></td>
+</tr>
+
+<tr class="row-large">
+    <td>Who detected?</td>
+    <td colspan="5"><textarea id="who_detected" class="qrqc-input"></textarea></td>
+ <td colspan="2"><textarea id="action_corrective_1"class="qrqc-input"></textarea></td>
+ <td><textarea id="responsible_1"class="qrqc-input"></textarea></td>
+ <td><textarea id="date_1"class="qrqc-input"></textarea></td>
+ <td colspan="2"><textarea id="where"class="qrqc-input"></textarea></td>
+</tr>
+
+<tr class="row-large">
+    <td>Where was detected?</td>
+<td colspan="5"><textarea id="where_detected" class="qrqc-input"></textarea></td>
+ <td colspan="2"><textarea id="action_corrective_1"class="qrqc-input"></textarea></td>
+ <td><textarea id="responsible_1"class="qrqc-input"></textarea></td>
+ <td><textarea id="date_1"class="qrqc-input"></textarea></td>
+ <td colspan="2"><textarea id="where"class="qrqc-input"></textarea></td>
+</tr>
+
+<tr class="row-large">
+    <td>How was detected?</td>
+<td colspan="5"><textarea id="how_detected" class="qrqc-input"></textarea></td>
+ <td colspan="2"><textarea id="action_corrective_1"class="qrqc-input"></textarea></td>
+ <td><textarea id="responsible_1"class="qrqc-input"></textarea></td>
+ <td><textarea id="date_1"class="qrqc-input"></textarea></td>
+ <td colspan="2"><textarea id="where"class="qrqc-input"></textarea></td>
+</tr>
+
+<tr class="row-large">
+    <td>How many, How much?</td>
+<td colspan="5"><textarea id="how_many" class="qrqc-input"></textarea></td>
+ <td colspan="2"><textarea id="action_corrective_1"class="qrqc-input"></textarea></td>
+ <td><textarea id="responsible_1"class="qrqc-input"></textarea></td>
+ <td><textarea id="date_1"class="qrqc-input"></textarea></td>
+ <td colspan="2"><textarea id="where"class="qrqc-input"></textarea></td>
+</tr>
+
+</table>
+
+</div>
+
 
                 </div>
 
