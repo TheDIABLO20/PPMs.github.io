@@ -344,16 +344,6 @@ function limpiarFormulario(){
 
 }
 
-function cargarUsuario(){
-
-    const nombre =
-        localStorage.getItem("nombreUsuario");
-
-    document.getElementById("usuarioNombre")
-        .textContent = nombre;
-
-}
-
 window.onload = function(){
 
     cargarUsuario();
