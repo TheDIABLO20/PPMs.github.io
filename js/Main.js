@@ -1,3 +1,5 @@
+console.log("MAIN.JS CARGADO");
+
 const supabaseUrl =
 "https://drxvkseiacmrzedbzysc.supabase.co";
 const supabaseKey =
