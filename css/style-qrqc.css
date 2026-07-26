@@ -98,3 +98,43 @@ td,th{
     box-shadow:none;
 
 }
+
+input{
+
+    width:350px;
+    padding:10px 15px;
+
+    border:1px solid #d1d5db;
+    border-radius:8px;
+
+    font-size:14px;
+
+}
+
+input:focus{
+
+    outline:none;
+    border-color:#1565d8;
+
+    box-shadow:
+    0 0 0 3px rgba(21,101,216,.15);
+
+}
+
+button {
+    box-shadow: 0 3px 8px rgba(0,0,0,.15);
+}
+
+button:hover {
+    box-shadow: 0 5px 15px rgba(0,0,0,.25);
+}
+
+button{
+    margin-top:15px;
+    background:#1565d8;
+    color:white;
+    border:none;
+    padding:10px 20px;
+    border-radius:20px;
+    cursor:pointer;
+}
