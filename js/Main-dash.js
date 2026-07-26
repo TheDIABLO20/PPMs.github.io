@@ -99,6 +99,7 @@ imagenes.forEach(url => {
 
     document.getElementById("modalImagenes").style.display = "block";
 }
+
 function mostrar(id){
 
     document.querySelectorAll(".seccion").forEach(sec => {
@@ -122,6 +123,86 @@ function mostrar(id){
 function toggleSidebar(){
     document.getElementById('sidebar')
             .classList.toggle('collapsed');
+}
+
+function filtrarPPM(){
+
+    const texto =
+        document
+        .getElementById("buscarEmpleado")
+        .value
+        .toLowerCase();
+
+    const filtrados =
+        listaPPM.filter(ppm => {
+
+            const empleado =
+                String(ppm.empleado || "")
+                .toLowerCase();
+
+            const nombre =
+                String(ppm.nombre || "")
+                .toLowerCase();
+
+            return (
+                empleado.includes(texto) ||
+                nombre.includes(texto)
+            );
+        });
+
+    mostrarTablaFiltrada(filtrados);
+}
+
+function mostrarTablaFiltrada(datos){
+
+    let html = "";
+
+    datos.forEach(ppm => {
+
+        html += `
+        <tr>
+
+            <td>${ppm.id}</td>
+            <td>${ppm.empleado}</td>
+            <td>${ppm.nombre}</td>
+            <td>${ppm.area}</td>
+            <td>${ppm.fecha}</td>
+            <td>${ppm.proceso_afectado}</td>
+            <td>${ppm.delivery_to}</td>
+            <td>${ppm.codigo}</td>
+            <td>${ppm.supervisor_originador}</td>
+            <td>${ppm.empleado_reporta}</td>
+            <td>${ppm.turno_reporta}</td>
+            <td>${ppm.titulo}</td>
+
+            <td>
+                ${ppm.imagen_url
+                    ? "📷 Evidencia"
+                    : "Sin evidencia"}
+            </td>
+
+            <td>
+
+                <button
+                    class="btn-ver"
+                    onclick="verPPM(${ppm.id})">
+                    Ver
+                </button>
+
+                <button
+                    class="btn-delete"
+                    onclick="eliminarPPM(${ppm.id})">
+                    Eliminar
+                </button>
+
+            </td>
+
+        </tr>
+        `;
+    });
+
+    document.getElementById("listaPPM").innerHTML =
+        html;
 }
 
 function cerrarSesion(){
@@ -270,7 +351,7 @@ async function cargarPPM() {
             <td>${ppm.empleado_reporta}</td>
             <td>${ppm.turno_reporta}</td>
             <td>${ppm.titulo}</td>
-            <td>${ppm.imagen_url ? "1 Evidencia" : "Sin Evidencia"}</td>
+            <td>${ppm.imagen_url ? "Evidencia" : "Sin Evidencia"}</td>
 
             <td>
                 <button
@@ -356,6 +437,37 @@ async function cargarQRQC(){
             .eq("id", id)
             .single();
 
+const { data: detalle, error: detalleError } = await supabaseClient
+    .from('qrqc_detalle')
+    .select('*')
+    .eq('qrqc_id', data.id)
+    .single();
+
+if (detalle) {
+
+    document.getElementById("what_happen").value =
+        detalle.what_happen || "";
+
+    document.getElementById("why_problem").value =
+        detalle.why_problem || "";
+
+    document.getElementById("when_detected").value =
+        detalle.when_detected || "";
+
+    document.getElementById("who_detected").value =
+        detalle.who_detected || "";
+
+    document.getElementById("where_detected").value =
+        detalle.where_detected || "";
+
+    document.getElementById("how_detected").value =
+        detalle.how_detected || "";
+
+    document.getElementById("how_many").value =
+        detalle.how_many || "";
+
+}
+
     if(error){
 
         alert("PPM no encontrado");
@@ -365,6 +477,10 @@ async function cargarQRQC(){
 
     document.getElementById("qrqc_id")
         .textContent = data.id;
+
+    document.getElementById("qrqc_date")
+    .textContent =
+    data.fecha_registro.split("T")[0];
 
     document.getElementById("qrqc_codigo")
         .textContent = data.codigo;
@@ -388,6 +504,123 @@ async function cargarQRQC(){
         .textContent = data.titulo;
 }
 
+async function guardarQRQC() {
+
+    const qrqcId =
+        document.getElementById("qrqc_id").textContent;
+
+const datos = {
+
+    qrqc_id: Number(qrqcId),
+
+    what_happen:
+        document.getElementById("what_happen").value,
+
+    why_problem:
+        document.getElementById("why_problem").value,
+
+    when_detected:
+        document.getElementById("when_detected").value,
+
+    who_detected:
+        document.getElementById("who_detected").value,
+
+    where_detected:
+        document.getElementById("where_detected").value,
+
+    how_detected:
+        document.getElementById("how_detected").value,
+
+    how_many:
+        document.getElementById("how_many").value,
+
+    action_corrective_1:
+        document.getElementById("action_corrective_1").value,
+    action_corrective_2:
+        document.getElementById("action_corrective_2").value,
+
+    responsible_1:
+        document.getElementById("responsible_1").value,
+    responsible_2:
+        document.getElementById("responsible_2").value,
+
+    date_1:
+        document.getElementById("date_1").value,
+    date_2:
+        document.getElementById("date_2").value,
+
+    where_action_1:
+        document.getElementById("where_1").value,
+    where_action_2:
+        document.getElementById("where_2").value
+};
+
+const { data, error } = await supabaseClient
+    .from('qrqc_detalle')
+    .upsert(datos, {
+        onConflict: 'qrqc_id'
+    });
+
+    if(error){
+
+        alert(error.message);
+
+    }else{
+
+        alert("Información guardada");
+    }
+}
+
+function limpiarQRQC() {
+
+    document.getElementById("qrqc_id").textContent = "";
+    document.getElementById("qrqc_date").textContent = "";
+document.getElementById("qrqc_codigo").textContent = "";
+document.getElementById("qrqc_delivery").textContent = "";
+document.getElementById("qrqc_empleado").textContent = "";
+document.getElementById("qrqc_turno").textContent = "";
+document.getElementById("qrqc_area").textContent = "";
+document.getElementById("qrqc_reporte").textContent = "";
+document.getElementById("qrqc_hallazgo").textContent = "";
+
+    document.getElementById("what_happen").value = "";
+    document.getElementById("why_problem").value = "";
+    document.getElementById("when_detected").value = "";
+    document.getElementById("who_detected").value = "";
+    document.getElementById("where_detected").value = "";
+    document.getElementById("how_detected").value = "";
+    document.getElementById("how_many").value = "";
+
+    document.getElementById("action_corrective_1").value = "";
+    document.getElementById("action_corrective_2").value = "";
+    document.getElementById("action_corrective_3").value = "";
+    document.getElementById("action_corrective_4").value = "";
+    document.getElementById("action_corrective_5").value = "";
+    document.getElementById("action_corrective_6").value = "";
+
+    document.getElementById("responsible_1").value = "";
+    document.getElementById("responsible_2").value = "";
+    document.getElementById("responsible_3").value = "";
+    document.getElementById("responsible_4").value = "";
+    document.getElementById("responsible_5").value = "";
+    document.getElementById("responsible_6").value = "";
+
+    document.getElementById("date_1").value = "";
+    document.getElementById("date_2").value = "";
+    document.getElementById("date_3").value = "";
+    document.getElementById("date_4").value = "";
+    document.getElementById("date_5").value = "";
+    document.getElementById("date_6").value = "";
+
+    document.getElementById("where_1").value = "";
+    document.getElementById("where_2").value = "";
+    document.getElementById("where_3").value = "";
+    document.getElementById("where_4").value = "";
+    document.getElementById("where_5").value = "";
+    document.getElementById("where_6").value = "";
+
+}
+
 function cargarUsuario(){
 
     const nombre =
@@ -403,3 +636,4 @@ window.onload = function(){
     cargarUsuario();
 
 }
+
