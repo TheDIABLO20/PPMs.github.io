@@ -295,11 +295,21 @@
 
                 <div class="modulo">
 
-                    <h2>Ver PPM</h2>
+<h2>Ver PPM</h2>
 
-                    <p>
-                        Consulta de PPM registrados.
-                    </p>
+<p>Consulta de PPM registrados.</p>
+
+<div class="busqueda-ppm">
+
+    <input
+        type="text"
+        id="buscarEmpleado"
+        placeholder="Buscar por empleado o nombre..."
+        onkeyup="filtrarPPM()">
+
+</div>
+
+<table class="tabla-ppm">
 
                     <table class="tabla-ppm">
 
@@ -381,6 +391,8 @@
                         Buscar con ID:
                     <input type="text" id="buscarPPM">
 <button onclick="cargarQRQC()">Buscar</button>
+<button onclick="guardarQRQC()">Guardar</button>
+<button id="btnLimpiar" onclick="limpiarQRQC()">Limpiar</button>
                     </p>
 <div class="container1">
 
@@ -393,10 +405,10 @@
 </tr>
 
 <tr>
-    <td class="label">Folio: <h id="qrqc_id"></h></td>
-    <td colspan="5"></td>
+    <td class="label">Folio:</h></td>
+    <td colspan="5"><h id="qrqc_id"></td>
     <td class="label">Start Date</td>
-    <td colspan="2"><textarea class="qrqc-input"></textarea></td>
+    <td colspan="2"><h class="center" id="qrqc_date"></textarea></td>
     <td class="label">Completion Date</td>
     <td colspan="2"><textarea class="qrqc-input"></textarea></td>
 </tr>
@@ -450,58 +462,57 @@
  <td colspan="2"><textarea id="action_corrective_1"class="qrqc-input"></textarea></td>
  <td><textarea id="responsible_1"class="qrqc-input"></textarea></td>
  <td><textarea id="date_1"class="qrqc-input"></textarea></td>
- <td colspan="2"><textarea id="where"class="qrqc-input"></textarea></td>
+ <td colspan="2"><textarea id="where_1"class="qrqc-input"></textarea></td>
 </tr>
 
 <tr class="row-large">
     <td>When was detected?</td>
 <td colspan="5"><textarea id="when_detected" class="qrqc-input"></textarea></td>
- <td colspan="2"><textarea id="action_corrective_1"class="qrqc-input"></textarea></td>
- <td><textarea id="responsible_1"class="qrqc-input"></textarea></td>
- <td><textarea id="date_1"class="qrqc-input"></textarea></td>
- <td colspan="2"><textarea id="where"class="qrqc-input"></textarea></td>
+ <td colspan="2"><textarea id="action_corrective_2"class="qrqc-input"></textarea></td>
+ <td><textarea id="responsible_2"class="qrqc-input"></textarea></td>
+ <td><textarea id="date_2"class="qrqc-input"></textarea></td>
+ <td colspan="2"><textarea id="where_2"class="qrqc-input"></textarea></td>
 </tr>
 
 <tr class="row-large">
     <td>Who detected?</td>
     <td colspan="5"><textarea id="who_detected" class="qrqc-input"></textarea></td>
- <td colspan="2"><textarea id="action_corrective_1"class="qrqc-input"></textarea></td>
- <td><textarea id="responsible_1"class="qrqc-input"></textarea></td>
- <td><textarea id="date_1"class="qrqc-input"></textarea></td>
- <td colspan="2"><textarea id="where"class="qrqc-input"></textarea></td>
+ <td colspan="2"><textarea id="action_corrective_3"class="qrqc-input"></textarea></td>
+ <td><textarea id="responsible_3"class="qrqc-input"></textarea></td>
+ <td><textarea id="date_3"class="qrqc-input"></textarea></td>
+ <td colspan="2"><textarea id="where_3"class="qrqc-input"></textarea></td>
 </tr>
 
 <tr class="row-large">
     <td>Where was detected?</td>
 <td colspan="5"><textarea id="where_detected" class="qrqc-input"></textarea></td>
- <td colspan="2"><textarea id="action_corrective_1"class="qrqc-input"></textarea></td>
- <td><textarea id="responsible_1"class="qrqc-input"></textarea></td>
- <td><textarea id="date_1"class="qrqc-input"></textarea></td>
- <td colspan="2"><textarea id="where"class="qrqc-input"></textarea></td>
+ <td colspan="2"><textarea id="action_corrective_4"class="qrqc-input"></textarea></td>
+ <td><textarea id="responsible_4"class="qrqc-input"></textarea></td>
+ <td><textarea id="date_4"class="qrqc-input"></textarea></td>
+ <td colspan="2"><textarea id="where_4"class="qrqc-input"></textarea></td>
 </tr>
 
 <tr class="row-large">
     <td>How was detected?</td>
 <td colspan="5"><textarea id="how_detected" class="qrqc-input"></textarea></td>
- <td colspan="2"><textarea id="action_corrective_1"class="qrqc-input"></textarea></td>
- <td><textarea id="responsible_1"class="qrqc-input"></textarea></td>
- <td><textarea id="date_1"class="qrqc-input"></textarea></td>
- <td colspan="2"><textarea id="where"class="qrqc-input"></textarea></td>
+ <td colspan="2"><textarea id="action_corrective_5"class="qrqc-input"></textarea></td>
+ <td><textarea id="responsible_5"class="qrqc-input"></textarea></td>
+ <td><textarea id="date_5"class="qrqc-input"></textarea></td>
+ <td colspan="2"><textarea id="where_5"class="qrqc-input"></textarea></td>
 </tr>
 
 <tr class="row-large">
     <td>How many, How much?</td>
 <td colspan="5"><textarea id="how_many" class="qrqc-input"></textarea></td>
- <td colspan="2"><textarea id="action_corrective_1"class="qrqc-input"></textarea></td>
- <td><textarea id="responsible_1"class="qrqc-input"></textarea></td>
- <td><textarea id="date_1"class="qrqc-input"></textarea></td>
- <td colspan="2"><textarea id="where"class="qrqc-input"></textarea></td>
+ <td colspan="2"><textarea id="action_corrective_6"class="qrqc-input"></textarea></td>
+ <td><textarea id="responsible_6"class="qrqc-input"></textarea></td>
+ <td><textarea id="date_6"class="qrqc-input"></textarea></td>
+ <td colspan="2"><textarea id="where_6"class="qrqc-input"></textarea></td>
 </tr>
 
 </table>
 
 </div>
-
 
                 </div>
 
