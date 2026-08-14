@@ -466,6 +466,17 @@ if (detalle) {
     document.getElementById("how_many").value =
         detalle.how_many || "";
 
+    document.getElementById("action_corrective_1").value =
+        detalle.action_corrective_1 || "";
+ 
+    document.getElementById("responsible_1").value =
+        detalle.responsible_1 || "";
+
+    document.getElementById("date_1").value =
+        detalle.date_1 || "";
+
+    document.getElementById("where_1").value =
+        detalle.where_1 || "";
 }
 
     if(error){
@@ -544,15 +555,23 @@ const datos = {
     responsible_2:
         document.getElementById("responsible_2").value,
 
-    date_1:
-        document.getElementById("date_1").value,
-    date_2:
-        document.getElementById("date_2").value,
-
-    where_action_1:
+    where_1:
         document.getElementById("where_1").value,
-    where_action_2:
-        document.getElementById("where_2").value
+
+    date_1:
+        document.getElementById("date_1").value|| null,
+    date_2:
+        document.getElementById("date_2").value|| null,
+    date_3:
+        document.getElementById("date_3").value|| null,
+    date_4:
+        document.getElementById("date_4").value|| null,
+    date_5:
+        document.getElementById("date_5").value|| null,
+    date_6:
+        document.getElementById("date_6").value|| null,
+
+
 };
 
 const { data, error } = await supabaseClient
