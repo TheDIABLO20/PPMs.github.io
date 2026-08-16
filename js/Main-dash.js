@@ -646,7 +646,7 @@ function mostrarQR(){
         document.getElementById("empleado").value || "nuevo";
 
     const urlSubida =
-        `Z:\BrayanS\Pruebas\PPMS?id=${ppmId}`;
+        `https://thediablo20.github.io/PPMs.github.io/upload.html?id=${ppmId}`;
 
     const qr =
         `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(urlSubida)}`;
