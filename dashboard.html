@@ -261,28 +261,31 @@
             <div style="grid-column:1 / span 2;">
 
                 <label>Evidencia Fotográfica</label>
-              <input type="file" id="imagenes">
-                <small>
-                    Puede seleccionar una o varias imágenes.
-                </small>
 
-            </div>
+<div class="evidencia-opciones">
 
-        </div>
+    <input
+        type="file"
+        id="imagenes"
+        multiple
+        accept="image/*">
 
-        <div class="ppm-buttons">
+    <button
+        type="button"
+        class="btn-evidencias"
+        onclick="mostrarQR()">
 
-            <button
-                class="btn-save"
-                onclick="guardarPPM()">
-                Guardar PPM
-            </button>
+        📱 Subir desde Teléfono
 
-            <button
-                class="btn-clear"
-                onclick="limpiarFormulario()">
-                Limpiar
-            </button>
+    </button>
+
+</div>
+
+<div id="contenedorQR"></div>
+
+<small>
+    Puede seleccionar una o varias imágenes o usar el QR.
+</small>
 
         </div>
 
