@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
+
+<title>Subir Evidencias</title>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Segoe UI',sans-serif;
+}
+
+body{
+
+    background:#f4f6f9;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    min-height:100vh;
+}
+
+.card{
+
+    background:white;
+
+    width:95%;
+    max-width:500px;
+
+    padding:25px;
+
+    border-radius:12px;
+
+    box-shadow:
+    0 4px 15px rgba(0,0,0,.15);
+}
+
+h2{
+
+    color:#1565d8;
+
+    margin-bottom:15px;
+}
+
+.info{
+
+    margin-bottom:15px;
+    font-size:15px;
+}
+
+input[type=file]{
+
+    width:100%;
+
+    padding:15px;
+
+    border:2px dashed #1565d8;
+
+    border-radius:10px;
+
+    background:#fafafa;
+}
+
+button{
+
+    width:100%;
+
+    margin-top:15px;
+
+    background:#1565d8;
+    color:white;
+
+    border:none;
+
+    padding:14px;
+
+    border-radius:8px;
+
+    cursor:pointer;
+
+    font-weight:bold;
+}
+
+button:hover{
+
+    background:#0d47a1;
+}
+
+#estado{
+
+    margin-top:15px;
+    text-align:center;
+    font-weight:bold;
+}
+
+</style>
+
+https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2script>
+
+</head>
+
+<body>
+
+<div class="card">
+
+    <h2>?? Subir Evidencias</h2>
+
+    <div class="info">
+
+        PPM:
+        <span id="ppmId"></span>
+
+    </div>
+
+    <input
+        type="file"
+        id="imagenes"
+        multiple
+        accept="image/*"
+        capture="environment">
+
+    <button onclick="subirFotos()">
+        Subir Evidencias
+    </button>
+
+    <div id="estado"></div>
+
+</div>
+
+<script>
+
+const supabaseUrl =
+"https://drxvkseiacmrzedbzysc.supabase.co";
+
+const supabaseKey =
+"TU_ANON_KEY";
+
+const supabaseClient =
+window.supabase.createClient(
+    supabaseUrl,
+    supabaseKey
+);
+
+const params =
+new URLSearchParams(
+    window.location.search
+);
+
+const ppmId =
+params.get("id");
+
+document.getElementById("ppmId")
+    .textContent = ppmId;
+
+async function subirFotos(){
+
+    if(!ppmId){
+
+        alert("No se recibió ID del PPM");
+        return;
+    }
+
+    const archivos =
+        document.getElementById("imagenes")
+        .files;
+
+    if(archivos.length === 0){
+
+        alert("Selecciona una imagen");
+        return;
+    }
+
+    const estado =
+        document.getElementById("estado");
+
+    estado.textContent =
+        "Subiendo...";
+
+    let urls = [];
+
+    for(const archivo of archivos){
+
+        const nombreArchivo =
+            ppmId + "_" +
+            Date.now() + "_" +
+            archivo.name;
+
+        const { error } =
+            await supabaseClient.storage
+            .from("ppm-imagenes")
+            .upload(
+                nombreArchivo,
+                archivo
+            );
+
+        if(error){
+
+            console.error(error);
+
+            estado.textContent =
+                "Error al subir imagen";
+
+            return;
+        }
+
+        const { data } =
+            supabaseClient.storage
+            .from("ppm-imagenes")
+            .getPublicUrl(
+                nombreArchivo
+            );
+
+        urls.push(
+            data.publicUrl
+        );
+    }
+
+    const { data: actual } =
+        await supabaseClient
+        .from("ppm")
+        .select("imagen_url")
+        .eq("id", ppmId)
+        .single();
+
+    let imagenesActuales = [];
+
+    if(actual?.imagen_url){
+
+        try{
+
+            imagenesActuales =
+                JSON.parse(
+                    actual.imagen_url
+                );
+
+        }catch{
+
+            imagenesActuales = [];
+        }
+    }
+
+    const todasLasImagenes = [
+
+        ...imagenesActuales,
+
+        ...urls
+
+    ];
+
+    const { error:updateError } =
+        await supabaseClient
+        .from("ppm")
+        .update({
+
+            imagen_url:
+            JSON.stringify(
+                todasLasImagenes
+            )
+
+        })
+        .eq("id", ppmId);
+
+    if(updateError){
+
+        console.error(updateError);
+
+        estado.textContent =
+            "Error al actualizar PPM";
+
+        return;
+    }
+
+    estado.textContent =
+        "? Evidencias guardadas correctamente";
+}
+
+</script>
+
+</body>
+</html>
