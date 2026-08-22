@@ -652,6 +652,7 @@ function mostrarQR(){
         `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(urlSubida)}`;
 
     document.getElementById("contenedorQR").innerHTML = `
+
         <h3>Escanea este QR</h3>
 
         ${qr}
@@ -659,6 +660,7 @@ function mostrarQR(){
         <p>
             Usa tu teléfono para subir evidencias.
         </p>
+
     `;
 }
 
