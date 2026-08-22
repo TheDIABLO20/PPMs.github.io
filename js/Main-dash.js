@@ -643,7 +643,7 @@ document.getElementById("qrqc_hallazgo").textContent = "";
 function mostrarQR(){
 
     const ppmId =
-        document.getElementById("empleado").value || "nuevo";
+        document.getElementById("id").value || "nuevo";
 
     const urlSubida =
         `https://thediablo20.github.io/PPMs.github.io/upload.html?id=${ppmId}`;
