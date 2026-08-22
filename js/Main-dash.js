@@ -653,11 +653,11 @@ function mostrarQR(ppmId){
 
         <img
             src="${qr}"
-            alt="QR Evidencias"
-      s.
+      #${ppmId}
         </p>
     `;
 }
+``
 
 function cargarUsuario(){
 
