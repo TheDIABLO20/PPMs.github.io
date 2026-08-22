@@ -1,3 +1,5 @@
+alert(ppmId);
+
 const supabaseUrl =
 "https://drxvkseiacmrzedbzysc.supabase.co";
 const supabaseKey =
